@@ -18,6 +18,7 @@ import peaksoft.repository.StopListRepository;
 import peaksoft.service.StopListService;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,21 +37,40 @@ public class StopListServiceImpl implements StopListService {
 
     @Override
     public SimpleResponse saveStopList(Long menuItemId, StopListRequest stopListRequest) {
+        StopList stopList = new StopList();
         MenuItem menuItem = menuItemRepository.findById(menuItemId)
                 .orElseThrow(() -> {
                     log.error("MenuItem with id " + menuItemId + " not found !");
                     return new NotFoundException("MenuItem with id " + menuItemId + " not found !");
                 });
-        if (menuItem.getStopList() != null) {
-            log.error("MenuItem with name  " + menuItem.getName() + " already exist !");
-            throw new AlreadyExistException("MenuItem with name  " + menuItem.getName() + " already exist!");
-        }
-        StopList stopList = new StopList();
+
+//        if (menuItem.getStopList() != null) {
+//            log.error("MenuItem with name  " + menuItem.getName() + " already exist !");
+//            throw new AlreadyExistException("MenuItem with name  " + menuItem.getName() + " already exist!");
+//        }
+
         stopList.setReason(stopListRequest.reason());
-        stopList.setDate(ZonedDateTime.now());
+        stopList.setDate(stopListRequest.valid());
         stopList.setMenuItem(menuItem);
         menuItem.setStopList(stopList);
-        stopListRepository.save(stopList);
+        List<StopList> stopLists = stopListRepository.findAll();
+        if (stopLists.isEmpty()) {
+            stopListRepository.save(stopList);
+            log.info(String.format("StopList with id %s  successfully saved !", stopList.getId()));
+            return SimpleResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message(String.format("StopList with id %s  successfully saved !", stopList.getId()))
+                    .build();
+        }
+            for (StopList s : stopLists
+            ) {
+                if (s.getMenuItem().getId().equals(menuItemId) && s.getDate().equals(stopList.getDate())) {
+                    throw new AlreadyExistException("Stop list with id" + s.getId() + " already exist !");
+                }
+                stopListRepository.save(stopList);
+
+            }
+
         log.info(String.format("StopList with id %s  successfully saved !", stopList.getId()));
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)

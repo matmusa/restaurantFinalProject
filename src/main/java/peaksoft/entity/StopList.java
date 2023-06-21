@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.repository.cdi.Eager;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -26,7 +27,7 @@ public class StopList {
     )
     private Long id;
     private String reason;
-    private ZonedDateTime date;
+    private LocalDate date;
     @OneToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,

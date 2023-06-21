@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import peaksoft.dto.response.AllRestaurantResponse;
 import peaksoft.dto.response.RestaurantResponse;
 import peaksoft.entity.Restaurant;
+import peaksoft.entity.User;
 import peaksoft.enums.RestType;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Query("select count (u) from User u   where u.restaurant.id=:id  ")
     int countOfEmployees(Long id);
 
+    @Query("select ru from Restaurant r   join r.users ru  where r.id=:id")
+    List<User> user(Long id);
     Optional<Restaurant> findById(Long id);
 }

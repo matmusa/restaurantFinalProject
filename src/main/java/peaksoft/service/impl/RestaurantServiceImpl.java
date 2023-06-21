@@ -18,6 +18,7 @@ import peaksoft.repository.RestaurantRepository;
 import peaksoft.repository.UserRepository;
 import peaksoft.service.RestaurantService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,14 +37,16 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new AlreadyExistException("You mast save only 1 Restaurant");
         }
         Restaurant restaurant = new Restaurant();
+        List<User> users = repository.user(restaurant.getId());
         restaurant = Restaurant.builder()
                 .name(restaurantRequest.name())
                 .location(restaurantRequest.location())
                 .service(restaurantRequest.service())
                 .restType(restaurantRequest.restType())
-                .countOfEmployees(repository.countOfEmployees(restaurant.getId()))
+                .countOfEmployees(users.size())
                 .build();
         repository.save(restaurant);
+
         log.info(String.format("Restaurant with name %s successfully saved !", restaurant.getName()));
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)
@@ -53,11 +56,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public AllRestaurantResponse getRestaurant(Long id) {
-
-        return AllRestaurantResponse.builder()
-                .restaurantResponse(repository.getRestaurantById(id))
-                .countOfEmployees(repository.countOfEmployees(id))
-                .build();
+        return null;
+//        return AllRestaurantResponse.builder()
+//                .restaurantResponse(repository.getRestaurantById(id))
+//                .countOfEmployees(repository.countOfEmployees(id))
+//                .build();
     }
 
     @Override

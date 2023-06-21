@@ -103,14 +103,16 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public SubCategoryPaginationResponse getAllByPage( int page, int size) {
-        Pageable pageable = PageRequest.of(page-1,size);
-        Page<SubCategoryResponse> subCategoryResponsePage = subcategoryRepository.getAllSubcategoriesByPage(pageable);
-
-        return SubCategoryPaginationResponse.builder()
-                .subCategoryResponseList(subCategoryResponsePage.getContent())
-                .page(subCategoryResponsePage.getNumber()+1)
-                .size(subCategoryResponsePage.getTotalPages())
-                .build();
+    public SubCategoryPaginationResponse getAllByPage(int page, int size) {
+        return null;
     }
+//        Pageable pageable = PageRequest.of(page-1,size);
+//        Page<SubCategoryResponse> subCategoryResponsePage = subcategoryRepository.getAllSubcategoriesByPage(pageable);
+//
+//        return SubCategoryPaginationResponse.builder()
+//                .subCategoryResponseList(subCategoryResponsePage.getContent())
+//                .page(subCategoryResponsePage.getNumber()+1)
+//                .size(subCategoryResponsePage.getTotalPages())
+//                .build();
+//    }
 }

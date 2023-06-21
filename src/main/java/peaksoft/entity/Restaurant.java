@@ -31,7 +31,7 @@ public class Restaurant {
     private String location;
     @Enumerated(EnumType.STRING)
     private RestType restType;
-    private int countOfEmployees;
+    private Integer countOfEmployees;
     private int service;
 
     @OneToMany(mappedBy = "restaurant",

@@ -16,31 +16,29 @@ import peaksoft.service.RestaurantService;
 public class RestaurantApi {
     private final RestaurantService restaurantService;
 
-    //  @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public SimpleResponse saveRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
         return restaurantService.saveRestaurant(restaurantRequest);
     }
 
-
+    @PermitAll
     @GetMapping("/{id}")
     public AllRestaurantResponse getRestaurantById(@PathVariable Long id) {
         return restaurantService.getRestaurant(id);
     }
 
-  //  @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public SimpleResponse updateRestaurant(@PathVariable Long id, @RequestBody RestaurantRequest restaurantRequest) {
         return restaurantService.updateRestaurantById(id, restaurantRequest);
     }
 
-   // @PreAuthorize("hasAuthority('ADMIN')")
+     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public SimpleResponse deleteRestaurantById(@PathVariable Long id) {
         return restaurantService.deleteRestaurant(id);
     }
-
-
 
 
 }

@@ -20,14 +20,14 @@ public class UserApi {
 
     private final UserService userService;
 
-    @PermitAll
+      @PermitAll
     @GetMapping("/{id}")
     public List<UserResponse> getAllUsers(@PathVariable Long id) {
         return userService.getAllUsersFromRestaurant(id);
     }
 
 
-    // @PreAuthorize("hasAuthority('ADMIN')")
+     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public SimpleResponse saveUser(@Valid @RequestBody UserRequest userRequest) {
         return userService.saveUsers(userRequest);
@@ -41,18 +41,19 @@ public class UserApi {
     }
 
 
-    // @PreAuthorize("hasAuthority('ADMIN')")
+     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public SimpleResponse updateUserById(@PathVariable Long id, @RequestBody UserRequest userRequest) {
         return userService.updateUserById(id, userRequest);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     private SimpleResponse deleteUserById(@PathVariable Long id) {
         return userService.deleteUserById(id);
     }
 
-    // @PreAuthorize("hasAuthority('ADMIN')")
+     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("{restaurantId}/{userId}")
     public SimpleResponse assignUserToCompany(@PathVariable Long restaurantId, @PathVariable Long userId) {
         return userService.assignUserToRestaurant(restaurantId, userId);

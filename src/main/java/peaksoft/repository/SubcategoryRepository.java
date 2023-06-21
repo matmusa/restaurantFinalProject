@@ -20,8 +20,8 @@ public interface SubcategoryRepository extends JpaRepository<Subcategory, Long> 
             "where s.category.id=:id ")
     List<SubCategoryResponse> getAllSubcategoriesByCategory(Long id);
 
-    @Query("select new peaksoft.dto.response.SubCategoryResponse(s.id,s.name)from Subcategory s ")
-    Page<SubCategoryResponse> getAllSubcategoriesByPage(Pageable pageable);
+//    @Query("select new peaksoft.dto.response.SubCategoryResponse(s.id,s.name)from Subcategory s ")
+//    Page<SubCategoryResponse> getAllSubcategoriesByPage(Pageable pageable);
 
     Optional<SubCategoryResponse> getSubcategoriesById(Long id);
 
